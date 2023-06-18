@@ -7,7 +7,8 @@ import openai
 openai.api_key = os.environ['OPENAI_API_KEY']
 
 # Create a new bot instance
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents.default()
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Event: Bot is ready
 @bot.event
