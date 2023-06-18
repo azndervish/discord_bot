@@ -24,7 +24,8 @@ async def ping(ctx):
 
 # Command: Ask AI
 @bot.command()
-async def ask(ctx, *, question):
+async def ask(ctx):
+    question = ctx.message.content
     response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages=[
