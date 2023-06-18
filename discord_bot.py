@@ -27,17 +27,15 @@ async def ping(ctx):
 async def ask(ctx):
     question = ctx.message.content
     print(question)
-    await ctx.send(question)
-
-#   response = openai.ChatCompletion.create(
-#       model='gpt-3.5-turbo',
-#       messages=[
-#           {"role": "system", "content": "You are a helpful assistant."},
-#           {"role": "user", "content": question}
-#       ]
-#   )
-#   answer = response['choices'][0]['message']['content']
-#   await ctx.send(answer)
+    response = openai.ChatCompletion.create(
+        model='gpt-3.5-turbo',
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": question}
+        ]
+    )
+    answer = response['choices'][0]['message']['content']
+    await ctx.send(answer)
 
 # Run the bot with your token
 bot.run(os.environ['DISCORD_API_KEY'])
