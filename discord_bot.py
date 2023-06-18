@@ -8,6 +8,7 @@ openai.api_key = os.environ['OPENAI_API_KEY']
 
 # Create a new bot instance
 intents = discord.Intents.default()
+intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Event: Bot is ready
@@ -18,6 +19,7 @@ async def on_ready():
 # Command: Ping
 @bot.command()
 async def ping(ctx):
+    print(ctx)
     await ctx.send('Pong!')
 
 # Command: Ask AI
