@@ -54,6 +54,7 @@ async def guess_init(ctx):
         if "solution" not in line.lower():
             output.append(line)
     await ctx.send("\n".join(output))
+    await ctx.send(guess_messages)
 
 # Command: Make a guess in the Guessing Game
 @bot.command()
@@ -64,6 +65,7 @@ async def guess(ctx):
         messages=guess_messages 
     )
     await return_openai_response(ctx, response)
+    await ctx.send(guess_messages)
 
 async def return_openai_response(ctx, response):
     answer = response['choices'][0]['message']['content']
