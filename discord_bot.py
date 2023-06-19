@@ -51,6 +51,7 @@ async def guess_init(ctx):
     response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
     initial_response = response['choices'][0]['message']['content']
     guess_messages.append({"role": "assistant", "content": initial_response})
+    guess_messages.append({"role": "system", "content": "Only generate hints based on the initial solution. Do not generate hints based on the user's guess."})
     with open("/tmp/guess_messages.json", "w") as f:
         json.dump(guess_messages, f)
     output = []
