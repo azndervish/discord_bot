@@ -13,10 +13,11 @@ openai.api_key = os.environ['OPENAI_API_KEY']
 COMMAND_PREFIX = '!'
 
 # Guess game constants
-with open("guess_game/solutions.txt", "r") as f:
+with open("guess_game/init_prompt.txt", "r") as f:
     GUESS_INIT_PROMPT = f.read()
 GUESS_INIT_PROMPT_REPLACE_WORD="sandwich" 
 GUESS_SOLUTION_INDEX_FILE="/tmp/guess_solution_index.txt"
+GUESS_SOLUTION_FILE="guess_game/solutions.txt"
 
 # Create a new bot instance
 intents = discord.Intents.default()
@@ -52,7 +53,7 @@ async def ask(ctx):
 @bot.command(help="Initialize the guessing game.")
 async def guess_init(ctx):
     try:
-        bot.guess_solution = get_line_by_index(get_guess_game_solution_index(), GUESS_SOLUTION_INDEX_FILE)
+        bot.guess_solution = get_line_by_index(get_guess_game_solution_index(), GUESS_SOLUTION_FILE)
         modified_prompt = GUESS_INIT_PROMPT.replace(GUESS_INIT_PROMPT_REPLACE_WORD, bot.guess_solution)
         guess_messages = [{"role": "user", "content": modified_prompt }]
         await return_response(ctx, modified_prompt)
@@ -144,7 +145,7 @@ def get_guess_game_solution_index() -> int:
     output = 0
     try:
         with open(GUESS_SOLUTION_INDEX_FILE, "r") as f:
-            return int(f.read())
+            output = int(f.read())
     except Exception as e:
         pass
     write_guess_game_solution_index(output + 1)
