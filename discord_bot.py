@@ -40,6 +40,6 @@ async def ask(ctx):
 
 async def main():
     await bot.load_extension("guess_game.cog")
-    bot.run(DISCORD_API_KEY)
+    await bot.start(DISCORD_API_KEY)
 
 asyncio.run(main())
