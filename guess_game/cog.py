@@ -49,8 +49,8 @@ class GuessingGameCog(commands.Cog):
         except Exception as e:
             await discord_utils.return_response(ctx, str(e))
 
-def setup(bot):
-    bot.add_cog(GuessingGameCog(bot))
+async def setup(bot):
+    await bot.add_cog(GuessingGameCog(bot))
 
 def get_line_by_index(index, file_path):
     try:
