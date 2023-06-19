@@ -47,16 +47,13 @@ async def ask(ctx):
 @bot.command()
 async def guess_init(ctx):
     guess_messages = [{"role": "user", "content": GUESS_INIT_PROMPT}]
-    response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=guess_messages 
-    )
+    response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
+    guess_messages.append({"role": "assistant", "content": response['choices'][0]['message']['content']})
+    guess_messages.append({"role": "user", "content": "Tell me what the one-word solution is."})
+    response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
     guess_messages.append({"role": "assistant", "content": response['choices'][0]['message']['content']})
     guess_messages.append({"role": "user", "content": "Give me a hint to start."})
-    response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=guess_messages 
-    )
+    response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
     await return_openai_response(ctx, response)
     await ctx.send(guess_messages)
 
