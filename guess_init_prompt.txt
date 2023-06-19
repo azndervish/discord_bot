@@ -1,0 +1,1 @@
+Let's play a guessing game. Generate an one word solution. Tell me what the solution is. If the I guess the one word solution correctly, tell me I got it right. If I guess the one word solution incorrectly, give me a one sentence hint. The hint must not contain the one word solution.
