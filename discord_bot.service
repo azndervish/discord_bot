@@ -1,0 +1,12 @@
+[Unit]
+Description=Discord Bot
+After=network.target
+
+[Service]
+User=discord
+WorkingDirectory=/home/discord/discord_bot
+ExecStart=bash /home/discord/discord_bot/run.sh
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
