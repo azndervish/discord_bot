@@ -4,6 +4,7 @@ from discord.ext import commands
 import openai
 import time
 import json
+import re
 
 DISCORD_MAX_LENGTH = 2000
 # Configure your OpenAI API key
@@ -14,9 +15,10 @@ with open("guess_init_prompt.txt", "r") as f:
     GUESS_INIT_PROMPT = f.read()
 
 # Create a new bot instance
+COMMAND_PREFIX = '!'
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix=COMMAND_PREFIX, intents=intents)
 
 # Event: Bot is ready
 @bot.event
@@ -37,7 +39,7 @@ async def ask(ctx):
         model='gpt-3.5-turbo',
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": question}
+            {"role": "user", "content": strip_command(question)}
         ]
     )
     await return_openai_response(ctx, response)
@@ -64,7 +66,7 @@ async def guess(ctx):
     try:
         with open("/tmp/guess_messages.json", "r") as f:
             guess_messages = json.loads(f.read())
-        guess_messages.append({"role": "user", "content": ctx.message.content})
+        guess_messages.append({"role": "user", "content": strip_command(ctx.message.content)})
         response = openai.ChatCompletion.create(
             model='gpt-3.5-turbo',
             messages=guess_messages 
@@ -73,6 +75,9 @@ async def guess(ctx):
         await ctx.send(guess_messages)
     except Exception as e:
         await guess_init(ctx)
+
+def strip_command(content):
+    return re.sub(r'^!\w+\s', '', content)
 
 async def return_openai_response(ctx, response):
     answer = response['choices'][0]['message']['content']
