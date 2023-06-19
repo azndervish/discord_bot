@@ -49,6 +49,9 @@ class GuessingGameCog(commands.Cog):
         except Exception as e:
             await discord_utils.return_response(ctx, str(e))
 
+def setup(bot):
+    bot.add_cog(GuessingGameCog(bot))
+
 def get_line_by_index(index, file_path):
     try:
         with open(file_path, "r") as f:
@@ -88,7 +91,6 @@ def get_guess_game_solution_index() -> int:
         pass
     write_guess_game_solution_index(output + 1)
     return output
-
 
 def write_guess_game_solution_index(new_index: int) -> None:
     """

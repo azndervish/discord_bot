@@ -3,7 +3,6 @@ import discord
 from discord.ext import commands
 import openai
 import discord_utils
-import guess_game.cog
 
 DISCORD_API_KEY=os.environ['DISCORD_API_KEY']
 # Configure your OpenAI API key
@@ -39,7 +38,7 @@ async def ask(ctx):
     await discord_utils.return_openai_response(ctx, response)
 
 def main():
-    bot.add_cog(guess_game.cog.GuessingGameCog(bot))
+    bot.add_cog("guess_game.cog")
     # Run the bot with your token
     bot.run(DISCORD_API_KEY)
 
