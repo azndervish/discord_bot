@@ -61,7 +61,7 @@ async def guess_init(ctx):
             bot.guess_solution = get_line_by_index(get_guess_game_solution_index(), GUESS_SOLUTION_FILE)
             modified_prompt = GUESS_INIT_PROMPT.replace(GUESS_INIT_PROMPT_REPLACE_WORD, bot.guess_solution)
             guess_messages = [{"role": "user", "content": modified_prompt }]
-            await return_response(ctx, "Setting up a new game. Please wait while ChatGPT does magic.")
+            await return_response(ctx, "Setting up a new Guessing game. Please wait while ChatGPT does magic.")
             response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
             initial_response = response['choices'][0]['message']['content']
             bot.guess_hints = extract_hints(initial_response)
