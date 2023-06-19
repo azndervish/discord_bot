@@ -1,0 +1,1 @@
+I am making a guessing game. I want my players to guess "sandwich". Give me 10 hints I can give to the players. The hints must not use the word "sandwich"
