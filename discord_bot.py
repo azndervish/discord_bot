@@ -37,9 +37,5 @@ async def ask(ctx):
     )
     await discord_utils.return_openai_response(ctx, response)
 
-def main():
-    bot.add_cog("guess_game.cog")
-    # Run the bot with your token
-    bot.run(DISCORD_API_KEY)
-
-main()
+bot.load_extension("guess_game.cog")
+bot.run(DISCORD_API_KEY)
