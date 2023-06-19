@@ -60,7 +60,12 @@ async def guess_init(ctx):
         bot.guess_hints = extract_hints(initial_response)
         bot.guess_hints_index = 1
         await return_response(ctx, bot.guess_hints[0])
-        await return_response(ctx, "\n\n".join([bot.guess_hints, modified_prompt, initial_response]))
+        time.sleep(1)
+        await return_response(ctx, bot.guess_hints)
+        time.sleep(1)
+        await return_response(ctx, modified_prompt) 
+        time.sleep(1)
+        await return_response(ctx, initial_response)
     except Exception as e:
         await return_response(ctx, e)
 
