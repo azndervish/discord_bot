@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 import openai
 import time
+import json
 
 DISCORD_MAX_LENGTH = 2000
 # Configure your OpenAI API key
@@ -16,8 +17,6 @@ with open("guess_init_prompt.txt", "r") as f:
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
-
-guess_messages = []
 
 # Event: Bot is ready
 @bot.event
@@ -50,6 +49,8 @@ async def guess_init(ctx):
     response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
     initial_response = response['choices'][0]['message']['content']
     guess_messages.append({"role": "assistant", "content": initial_response})
+    with open("/tmp/guess_messages.json", "w") as f:
+        json.dump(guess_messages, f)
     output = []
     for line in initial_response.split('\n'):
         if "solution" not in line.lower():
@@ -60,13 +61,18 @@ async def guess_init(ctx):
 # Command: Make a guess in the Guessing Game
 @bot.command()
 async def guess(ctx):
-    guess_messages.append({"role": "user", "content": ctx.message.content})
-    response = openai.ChatCompletion.create(
-        model='gpt-3.5-turbo',
-        messages=guess_messages 
-    )
-    await return_openai_response(ctx, response)
-    await ctx.send(guess_messages)
+    try:
+        with open("/tmp/guess_messages.json", "r") as f:
+            guess_messages = json.loads(f.read())
+        guess_messages.append({"role": "user", "content": ctx.message.content})
+        response = openai.ChatCompletion.create(
+            model='gpt-3.5-turbo',
+            messages=guess_messages 
+        )
+        await return_openai_response(ctx, response)
+        await ctx.send(guess_messages)
+    except Exception as e:
+        await guess_init(ctx)
 
 async def return_openai_response(ctx, response):
     answer = response['choices'][0]['message']['content']
