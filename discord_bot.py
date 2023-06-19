@@ -49,6 +49,7 @@ async def guess_init(ctx):
     guess_messages = [{"role": "user", "content": GUESS_INIT_PROMPT}]
     response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
     initial_response = response['choices'][0]['message']['content']
+    guess_messages.append({"role": "assistant", "content": initial_response})
     output = []
     for line in initial_response.split('\n'):
         if "solution" not in line.lower():
