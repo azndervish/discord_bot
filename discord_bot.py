@@ -31,6 +31,18 @@ async def ping(ctx):
     print(ctx)
     await ctx.send('Pong!')
 
+# Command: Help
+@bot.command()
+async def help(ctx):
+    help_text = """
+    **Available Commands:**
+    - !ping: Check if the bot is responsive.
+    - !ask <question>: Ask the AI a question.
+    - !guess_init: Initialize the guessing game.
+    - !guess <user_guess>: Make a guess in the guessing game.
+    """
+    await ctx.send(help_text)
+
 # Command: Ask AI
 @bot.command()
 async def ask(ctx):
