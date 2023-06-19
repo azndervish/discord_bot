@@ -55,18 +55,18 @@ async def ask(ctx):
 async def guess_init(ctx):
     try:
         if bot.guess_init_in_progress:
-            return_response(ctx, "A new game is being created. Please wait")
+            await return_response(ctx, "A new game is being created. Please wait")
         else:
             bot.guess_init_in_progress = True
             bot.guess_solution = get_line_by_index(get_guess_game_solution_index(), GUESS_SOLUTION_FILE)
             modified_prompt = GUESS_INIT_PROMPT.replace(GUESS_INIT_PROMPT_REPLACE_WORD, bot.guess_solution)
             guess_messages = [{"role": "user", "content": modified_prompt }]
-            return_response(ctx, "Setting up a new game. Please wait while ChatGPT does magic.")
+            await return_response(ctx, "Setting up a new game. Please wait while ChatGPT does magic.")
             response = openai.ChatCompletion.create( model='gpt-3.5-turbo', messages=guess_messages )
             initial_response = response['choices'][0]['message']['content']
             bot.guess_hints = extract_hints(initial_response)
             bot.guess_hints_index = 1
-            return_response(ctx, bot.guess_hints[0])
+            await return_response(ctx, bot.guess_hints[0])
             bot.guess_init_in_progress = False
     except Exception as e:
         await return_response(ctx, e)
