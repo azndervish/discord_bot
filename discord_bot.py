@@ -76,7 +76,7 @@ async def guess_init(ctx):
 @bot.command(help="Make a guess in the guessing game.")
 async def guess(ctx):
     try:
-        if ctx.message.content.lower() == bot.guess_solution.lower():
+        if strip_command(ctx.message.content).lower().strip() == bot.guess_solution.lower().strip():
             await return_response(ctx, f'"{bot.guess_solution}" is the correct answer!')
         elif bot.guess_hints_index >= len(bot.guess_hints):
             await return_response(ctx, f'Out of guesses. The correct answer was "{bot.guess_solution}"')
