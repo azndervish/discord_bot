@@ -11,7 +11,7 @@ with open("adventure_game/init_prompt.txt", "r") as f:
 with open("adventure_game/join_prompt.txt", "r") as f:
     JOIN_PROMPT = f.read()
 
-TWIST_ITERATIONS = 7
+TWIST_ITERATIONS = 5
 
 class AdventureGameCog(commands.Cog):
     def __init__(self, bot):
