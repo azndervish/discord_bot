@@ -1,0 +1,5 @@
+Let's play a "choose your own adventure" game. 
+
+There will be player characters that are controlled by the user. All other characters are NPCs controlled by ChatGPT.  When the user provides some actions for the player characters, generate a 75 word narrative. Then prompt the players to take an action.
+
+Start by writing a 75 word scenario introduction. The scenario is about:
