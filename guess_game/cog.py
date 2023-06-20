@@ -36,7 +36,7 @@ class GuessingGameCog(commands.Cog):
             await discord_utils.return_response(ctx, "Setting up a new Guessing game. Please wait while ChatGPT does magic.")
             response = openai.ChatCompletion.create(model='gpt-3.5-turbo', messages=guess_messages)
             initial_response = response['choices'][0]['message']['content']
-            self.guess_hints = self.extract_hints(initial_response)
+            self.guess_hints = extract_hints(initial_response)
             self.guess_hints_index = 1
             await discord_utils.return_response(ctx, self.guess_hints[0])
             self.guess_init_in_progress = False
@@ -46,16 +46,16 @@ class GuessingGameCog(commands.Cog):
     @commands.command(help="Make a guess in the guessing game.")
     async def guess(self, ctx):
         try:
-            if self.strip_command(ctx.message.content).lower().strip() == self.guess_solution.lower().strip():
+            if discord_utils.strip_command(ctx.message.content).lower().strip() == self.guess_solution.lower().strip():
                 await discord_utils.return_response(ctx, f'"{self.guess_solution}" is the correct answer!')
             elif self.guess_hints_index >= len(self.guess_hints):
                 await discord_utils.return_response(ctx, f'Out of guesses. The correct answer was "{self.guess_solution}"')
             else:
                 current_hint = self.guess_hints[self.guess_hints_index]
                 self.guess_hints_index += 1
-                await self.return_response(ctx, current_hint)
+                await discord_utils.return_response(ctx, current_hint)
         except Exception as e:
-            await self.return_response(ctx, str(e))
+            await discord_utils.return_response(ctx, str(e))
 
 async def setup(bot):
     await bot.add_cog(GuessingGameCog(bot))
