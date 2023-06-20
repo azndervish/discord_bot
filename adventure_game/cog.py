@@ -46,6 +46,7 @@ class AdventureGameCog(commands.Cog):
             self.action_queue.append(discord_utils.strip_command(ctx.message.content))
             if self.twist_counter >= TWIST_ITERATIONS:
                 self.action_queue.append("Add a twist to the story.")
+                self.twist_counter = 0
             else:
                 self.twist_counter += 1
 
