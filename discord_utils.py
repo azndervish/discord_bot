@@ -48,4 +48,7 @@ def strip_command(content: str) -> str:
     Returns:
         str: The content string with the command prefix removed.
     """
-    return re.sub(r'^!\w+\s', '', content)
+    if ' ' not in content:
+        # if there is no space, then there's no arguments.
+        return ""
+    return re.sub(r'^![^\s]+\s', '', content)
