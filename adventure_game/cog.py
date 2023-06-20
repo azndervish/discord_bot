@@ -34,7 +34,7 @@ class AdventureGameCog(commands.Cog):
             await discord_utils.return_response(ctx, "Setting up a new Adventure game. Please wait while ChatGPT does magic.")
             response = openai.ChatCompletion.create(model='gpt-3.5-turbo', messages=self.chat_context)
             initial_response = response['choices'][0]['message']['content']
-            self.chat_context.append([{"role": "assistant", "content": initial_response }])
+            self.chat_context.append({"role": "assistant", "content": initial_response })
             await discord_utils.return_response(ctx, initial_response)
             self.init_in_progress = False
         except Exception as e:
@@ -54,7 +54,7 @@ class AdventureGameCog(commands.Cog):
             self.chat_context.append({"role": "user", "content": user_content})
             response = openai.ChatCompletion.create(model='gpt-3.5-turbo', messages=self.chat_context)
             initial_response = response['choices'][0]['message']['content']
-            self.chat_context.append([{"role": "assistant", "content": initial_response }])
+            self.chat_context.append({"role": "assistant", "content": initial_response })
             await discord_utils.return_response(ctx, initial_response)
         except Exception as e:
             await discord_utils.return_response(ctx, str(e))
@@ -75,7 +75,7 @@ class AdventureGameCog(commands.Cog):
             self.chat_context.append({"role": "user", "content": user_content})
             response = openai.ChatCompletion.create(model='gpt-3.5-turbo', messages=self.chat_context)
             initial_response = response['choices'][0]['message']['content']
-            self.chat_context.append([{"role": "assistant", "content": initial_response }])
+            self.chat_context.append({"role": "assistant", "content": initial_response })
             await discord_utils.return_response(ctx, initial_response)
         except Exception as e:
             await discord_utils.return_response(ctx, str(e))
